@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
           partido.cand.forEach((candidato) => {
             const nome_candidato = formatarNome(candidato.nmu);
             const eleito = candidato.e === "s";
-            const votos = `${candidato.vap} - ${candidato.pvap}%`;
+            const votos = candidato.vap + " - " + candidato.pvap;
 
             const linha = [
               nome_candidato,
@@ -150,8 +150,11 @@ document.addEventListener("DOMContentLoaded", () => {
               if (index === 2) {
                 colunaEl.className = "validade";
               }
-              if (index === 3 && eleito) {
-                colunaEl.className = "eleito";
+              if (index === 3) {
+                colunaEl.className = "situacao";
+                if (eleito) {
+                  colunaEl.className = "eleito";
+                }
               }
               if (index === 4) {
                 colunaEl.className = "votos";
@@ -173,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const linhasOrdenadas = ordernarTabela(tabelaEl.children);
 
+      // Limpa a tabela para fornecer os dados ordenados
       limparTabela();
 
       linhasOrdenadas.forEach((linha) => {
@@ -256,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const totalFormatado = Number(total.replace(/\./g, "")).toLocaleString(
         "pt-BR"
       );
-      votosCell.innerHTML = `${totalFormatado}<br>${porcentagem}`;
+      votosCell.innerHTML = totalFormatado + "<br>" + porcentagem + "%";
     });
 
     return linhasArray;
@@ -292,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const elementoDiv = document.createElement("div");
     elementoDiv.className = "erro";
     elementoDiv.innerText =
-      "Erro ao retornar dados da votaÃ§Ã£o. Por favor tente novamente mais tarde.";
+      "Erro ao retornar dados da votação. Por favor tente novamente mais tarde.";
     painelEl.appendChild(elementoDiv);
   }
 });

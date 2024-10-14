@@ -1,0 +1,24 @@
+{
+  "name": "resultado-eleicoes-wordpress",
+  "version": "1.0.0",
+  "description": "#vanillajs #wordpress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gusfonseca21/resultado-eleicoes-wordpress.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gusfonseca21/resultado-eleicoes-wordpress/issues"
+  },
+  "homepage": "https://github.com/gusfonseca21/resultado-eleicoes-wordpress#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.12.0",
+    "eslint": "^9.12.0",
+    "globals": "^15.11.0"
+  }
+}

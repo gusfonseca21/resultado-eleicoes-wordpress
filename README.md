@@ -4,7 +4,7 @@
 
 **IMPORTANTE: NÃO SE ESQUEÇA DE FAZER O BACKUP DO SITE ANTES DE APLICAR ESSAS MUDANÇAS NO AMBIENTE DE PRODUÇÃO**
 
-Os arquivos que estão na pasta /wordpress são os códigos que efetivamente serão usados no WordPress, enquanto que os presentes em /desenvolvimento-local são usados para o desenvolvimento pois facilitam a visualização das mudanças.
+Os arquivos que estão na pasta wordpress/ são os códigos que efetivamente serão usados no WordPress, enquanto que os presentes em desenvolvimento-local/ são usados para o desenvolvimento pois facilitam a visualização das mudanças.
 
 Em um arquivo HTML podemos adicionar código JavaScript e CSS, porém, ao adicionar um código HTML com script JS pelo Elementor, por exemplo, o WordPress bloqueia a execução do código JS por motivos de segurança. Para fazer a adição de código JS customizado em uma página no WordPress precisamos seguir alguns passos.
 

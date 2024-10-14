@@ -1,8 +1,4 @@
-# Adicionando projeto Vanilla JS no WordPress
-
 #vanillajs #wordpress
-
-**IMPORTANTE: NÃO SE ESQUEÇA DE FAZER O BACKUP DO SITE ANTES DE APLICAR ESSAS MUDANÇAS NO AMBIENTE DE PRODUÇÃO**
 
 Os arquivos que estão na pasta wordpress/ são os códigos que efetivamente serão usados no WordPress, enquanto que os presentes em desenvolvimento-local/ são usados para o desenvolvimento pois facilitam a visualização das mudanças.
 
@@ -10,11 +6,56 @@ Em um arquivo HTML podemos adicionar código JavaScript e CSS, porém, ao adicio
 
 ### Passo 1: criar um tema filho (_child theme_)
 
+**OBS:** no caso da implantação em produção, não foi preciso criar um tema filho para fazer a implantação do código, já que o nosso tema não é atualizado.
+
 Os temas (no menu de **Aparência**) são importantes pois será neles que poderemos adicionar e gerenciar código JavaScript customizado. É importante criar um tema filho pois ele herdará o tema definido pelo pai e quando o tema principal for atualizado, a nossa modificação de importação do código JS não será sobrescrito.
 
-TERMINAR ESSA PARTE DA DOCUMENTAÇÃO QUANDO CRIAR UM TEMA FILHO
+Na pasta `wp-content/themes/` crie uma nova pasta. O nome da pasta deve ser o nome da pasta do tema pai com "-child" no final. Por exemplo: `cef-child`.
 
-https://wordpress.com/support/themes/child-themes/
+Copie os arquivos de código dos arquivos **_style.css_** e **_functions.php_** do tema pai e cole na pasta do tema filho.
+
+Dentro de **_style.css_** na pasta do tema filho apague todo o conteúdo e coloque o seguinte código (lembre-se que o código a seguir é somente uma referência, substitua com base no conteúdo do tema utilizado):
+
+`/*`
+`Theme Name: Inc Digital Child`
+`Theme URI: https://incdigital.com.br/`
+`Author: Inc Digital`
+`Author URI: https://incdigital.com.br/`
+`Description: Our child theme`
+`Version: 2021`
+`License: GNU General Public License v2 or later`
+`License URI: http://www.gnu.org/licenses/gpl-2.0.html`
+`Text Domain: incdigital`
+`Template: cef`
+`This theme, like WordPress, is licensed under the GPL.`
+`Use it to make something cool, have fun, and share what you've learned with others.`
+`*/`
+
+Em **Theme Name** e **Description** coloque informações para facilitar a identificação do tema filho.
+
+Preste a atenção nos campos **Text Domain** e **Template**, eles são a referência para o tema pai. Em **Text Domain** o valor deve ser o nome do tema instalado. Em **Template** o valor deve ser o nome da pasta do tema pai.
+
+Agora, no arquivo **_functions.php_** do tema filho apague todo o conteúdo e adicione o seguinte código:
+
+```php
+<?php
+function my_theme_enqueue_styles() {
+    $parent_style = 'NOME_PASTA_TEMA_PAI-style';
+    wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'child-style',
+        get_stylesheet_directory_uri() . '/style.css',
+        array( $parent_style ),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
+```
+
+Em **NOME_PASTA_TEMA_PAI**, seguindo nosso exemplo onde o nome da pasta do tema pai é **cef**, o valor será: `cef-style`.
+
+Agora basta ativar o tema filho em **Aparência** -> **Temas**.
+
+Para mais detalhes sobre como criar um tema filho, visite: https://wordpress.com/support/themes/child-themes/
 
 ### Passo 2: adicionar o código JavaScript dentro do diretório
 

@@ -8,7 +8,7 @@
     overflow: hidden;
   }
 
-  .seletores {
+  .painel .seletores {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -19,71 +19,65 @@
     /* border-bottom: 1px solid #bbb; */
   }
 
-  select {
+  .painel .seletores select {
     height: 2rem;
     text-align: center;
     font-weight: 500;
     font-size: 1rem;
   }
 
-  option {
+  .painel .seletores option {
     font-size: 1rem;
     padding: 1rem;
   }
 
-  select,
-  option {
+  .painel .seletores select,
+  .painel .seletores option {
     width: 100%;
   }
 
-  table,
-  td,
-  th {
-    text-align: center;
+  .painel table,
+  .painel td,
+  .painel th {
+    text-align: center !important;
   }
 
-  table {
+  .painel table {
     border-collapse: collapse;
     width: 100%;
   }
 
-  th,
-  td {
+  .painel th,
+  .painel td {
     padding: 0.5rem 0.3rem 0.5rem 0.3rem;
     height: 3rem;
-
     font-weight: 500;
     /* border-bottom: 1px solid #bbb; */
   }
 
-  /* td:not(:last-child) {
-        border-right: 1px solid #bbb;
-      } */
-
-  td {
+  .painel td {
     border-top: 1px solid #bbb;
   }
 
-  td:not(:last-child) {
+  .painel td:not(:last-child) {
     border-right: 1px solid #bbb;
   }
 
-  .tabela {
+  .painel .tabela {
     display: none;
     table-layout: fixed;
-    width: 1000px;
   }
 
-  .cabecalho-tabela {
-    background-color: #002084;
+  .painel .cabecalho-tabela {
+    background-color: #002084 !important;
   }
 
-  .cabecalho-tabela th {
+  .painel .cabecalho-tabela th {
     font-weight: bolder;
     color: #fff;
   }
 
-  .erro {
+  .painel .erro {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,7 +85,7 @@
     padding: 1rem;
   }
 
-  .carregando {
+  .painel .carregando {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,27 +93,27 @@
     padding: 1rem;
   }
 
-  .nome-partido {
+  .painel .nome-partido {
     background-color: #d1d7e9;
   }
 
-  .validade {
+  .painel .validade {
     background-color: #ebeef5;
   }
 
-  .votos {
+  .painel .votos {
     background-color: #f9e8c3;
     text-align: center;
   }
 
-  .eleito {
+  .painel .eleito {
     position: relative;
     z-index: 1;
     font-weight: bolder;
     color: #fff;
   }
 
-  .eleito::before {
+  .painel .eleito::before {
     content: "";
     position: absolute;
     top: 10px;
@@ -133,15 +127,20 @@
     height: auto;
   }
 
-  /* .vice {
-    background-color: #fcf3e0;
-  } */
+  /* .painel .vice {
+  background-color: #fcf3e0;
+} */
 
-  .carregar {
+  .painel .carregar {
     height: 2rem;
     width: 7rem;
     /* padding: 0.5rem 1rem 0.5rem 1rem; */
     text-align: center;
+  }
+
+  .situacao,
+  .eleito {
+    background-color: #ebeef5 !important;
   }
 </style>
 

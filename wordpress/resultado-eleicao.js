@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // --------->>>>>>> SELECIONDO OPÃ‡Ã•ES <<<<<------------
+  // --------->>>>>>> SELECIONDO OPÇÕES <<<<<------------
   const painelEl = document.querySelector(".painel");
   const seletorCandidaturaEl = document.querySelector(".seletor-candidatura");
   const seletorEstadoEl = document.querySelector(".seletor-estado");
   const seletorMunicipioEl = document.querySelector(".seletor-municipio");
   const botaoCarregarEl = document.querySelector(".carregar");
-  const tituloColVice = document.querySelector(".vice-linha");
+  //   const tituloColVice = document.querySelector(".vice-linha");
   const tabelaEl = document.querySelector(".tabela");
 
   let candidaturaSelecionada = "";
@@ -103,12 +103,12 @@ document.addEventListener("DOMContentLoaded", () => {
         .replace("{ESTADO_COD_MU}", estadoSelecionado + municipioSelecionado)
         .replace("{TIPO_CANDIDATURA}", candidaturaSelecionada);
 
-      // c0011 = prefeito; c0013 = vereador
-      if (candidaturaSelecionada === "c0011") {
-        tituloColVice.style.display = "table-cell";
-      } else {
-        tituloColVice.style.display = "none";
-      }
+      //   // c0011 = prefeito; c0013 = vereador
+      //   if (candidaturaSelecionada === "c0011") {
+      //     tituloColVice.style.display = "table-cell";
+      //   } else {
+      //     tituloColVice.style.display = "none";
+      //   }
 
       // eslint-disable-next-line no-undef
       const resultado = await axios.get(endpointFinal);
@@ -124,21 +124,21 @@ document.addEventListener("DOMContentLoaded", () => {
           partido.cand.forEach((candidato) => {
             const nome_candidato = formatarNome(candidato.nmu);
             const eleito = candidato.e === "s";
+            const votos = `${candidato.vap} - ${candidato.pvap}%`;
 
             const linha = [
               nome_candidato,
               sigla_partido,
               candidato.dvt,
               candidato.st,
-              candidato.vap,
-              candidato.pvap + "%",
+              votos,
             ];
 
-            // Se for prefeito, adicionar nome do vice
-            if (candidaturaSelecionada === "c0011") {
-              const nome_vice = formatarNome(candidato.vs[0].nmu);
-              linha.push(nome_vice);
-            }
+            // // Se for prefeito, adicionar nome do vice
+            // if (candidaturaSelecionada === "c0011") {
+            //   const nome_vice = formatarNome(candidato.vs[0].nmu);
+            //   linha.push(nome_vice);
+            // }
 
             const linhaTabelaEl = document.createElement("tr");
 
@@ -153,12 +153,12 @@ document.addEventListener("DOMContentLoaded", () => {
               if (index === 3 && eleito) {
                 colunaEl.className = "eleito";
               }
-              if (index === 4 || index === 5) {
-                colunaEl.className = "numero-percentual";
+              if (index === 4) {
+                colunaEl.className = "votos";
               }
-              if (index === 6) {
-                colunaEl.className = "vice";
-              }
+              //   if (index === 6) {
+              //     colunaEl.className = "vice";
+              //   }
               colunaEl.textContent = dadoColuna;
               return colunaEl;
             });
@@ -181,11 +181,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       removerCarregando();
 
-      console.log("EstÃ¡ chegando aqui?");
       tabelaEl.style.display = "table";
     } catch (error) {
       removerCarregando();
-      console.error("Erro ao fazer requisiÃ§Ã£o dos dados: ", error);
+      console.error("Erro ao fazer requisição dos dados: ", error);
       mostrarErro();
     }
   });
@@ -216,16 +215,31 @@ document.addEventListener("DOMContentLoaded", () => {
   function ordernarTabela(elementosLinhas) {
     const linhasArray = Array.from(elementosLinhas);
 
-    // Remove o cabeÃ§alho da tabela
+    // Remove o cabeçalho da tabela
     linhasArray.shift();
 
     linhasArray.sort((a, b) => {
-      const eleitoA = a.children[3].innerText.includes("Eleito") ? 1 : 0;
-      const eleitoB = b.children[3].innerText.includes("Eleito") ? 1 : 0;
+      // Coloca quem foi eleito na frente
+      const eleitoA = a.children[3].innerText.includes("Eleito")
+        ? 2
+        : a.children[3].innerText.includes("Suplente")
+        ? 1
+        : 0;
+
+      const eleitoB = b.children[3].innerText.includes("Eleito")
+        ? 2
+        : b.children[3].innerText.includes("Suplente")
+        ? 1
+        : 0;
 
       if (eleitoA === eleitoB) {
-        const totalVotosA = Number(a.children[4].innerText);
-        const totalVotosB = Number(b.children[4].innerText);
+        // Coloca quem tem mais votos na frente
+        const totalVotosA = Number(
+          a.children[4].innerText.split("-")[0].trim()
+        );
+        const totalVotosB = Number(
+          b.children[4].innerText.split("-")[0].trim()
+        );
 
         return totalVotosB - totalVotosA;
       }
@@ -233,13 +247,16 @@ document.addEventListener("DOMContentLoaded", () => {
       return eleitoB - eleitoA;
     });
 
-    console.log("linhasArray", linhasArray);
-
-    // Formata os valores de votos com toLocaleString para exibiÃ§Ã£o
+    // Formata os valores de votos para facilitar leitura
     linhasArray.forEach((linha) => {
       const votosCell = linha.children[4];
-      const votosNumericos = Number(votosCell.innerText.replace(/\./g, "")); // Remove pontos de milhares
-      votosCell.textContent = votosNumericos.toLocaleString("pt-BR"); // Formata para o padrÃ£o brasileiro
+      const votos = votosCell.innerText.split("-");
+      const total = votos[0].trim();
+      const porcentagem = votos[1].trim();
+      const totalFormatado = Number(total.replace(/\./g, "")).toLocaleString(
+        "pt-BR"
+      );
+      votosCell.innerHTML = `${totalFormatado}<br>${porcentagem}`;
     });
 
     return linhasArray;

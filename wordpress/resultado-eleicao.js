@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
   //   const tituloColVice = document.querySelector(".vice-linha");
   const tabelaEl = document.querySelector(".tabela");
 
+  const larguraJanela = window.innerWidth;
+  ajustarLargura(larguraJanela);
+
   let candidaturaSelecionada = "";
   let estadoSelecionado = "";
   let municipioSelecionado = "";
@@ -298,5 +301,19 @@ document.addEventListener("DOMContentLoaded", () => {
     elementoDiv.innerText =
       "Erro ao retornar dados da votação. Por favor tente novamente mais tarde.";
     painelEl.appendChild(elementoDiv);
+  }
+
+  // Responsividade da tabela
+  window.addEventListener("resize", () => {
+    const larguraJanela = window.innerWidth;
+    ajustarLargura(larguraJanela);
+  });
+
+  function ajustarLargura(largura) {
+    if (largura <= 500) {
+      painelEl.style.width = largura + "px";
+      painelEl.style.marginLeft = "-22px";
+      painelEl.style.borderRadius = 0;
+    }
   }
 });
